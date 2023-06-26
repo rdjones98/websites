@@ -1,0 +1,73 @@
+<html>
+<script>
+	function selectionChanged(e)
+	{
+
+		if( e.value === "string" )
+			showStringVisualization("This is a String", 20);
+		else if( e.value === "stringequality" )
+		{
+			showStringVisualization("This is a String", 20);
+			showStringVisualization("This is a string", 150);
+		}
+		else if( e.value === "stringbuffer" )
+		{
+			showStringBufferVisualization();
+		}
+	}
+	function showStringBufferVisualization()
+	{
+		var yOffset = 20;
+		var str = "This is a String";
+		showStringVisualization(str, 20);
+		
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.font = "20px sans serif";
+		ctx.fillText('sb.insert(10,"big ");', 40, yOffset + 130);
+
+		for(var i=0; i<10; i++)
+		{
+			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
+			ctx.fillText( " " + str.charAt(i) + " ", (i+1)*40, yOffset+220);
+		}	
+		
+		ctx.fillStyle="green";
+		for(var i=10; i<14; i++)
+		{
+			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
+			ctx.fillText( " " + "big ".charAt(i-10) + " ", (i+1)*40, yOffset+220);
+		}	
+
+		ctx.fillStyle="black";
+		for(var i=14; i<str.length + 4; i++)
+		{
+			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
+			ctx.fillText( " " + str.charAt(i-4) + " ", (i+1)*40, yOffset+220);
+		}	
+	}
+	function showStringVisualization(str, yOffset)
+	{
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.font = "20px sans serif";
+		ctx.fillText( str, 40,yOffset);
+		for(var i=0; i<str.length; i++)
+		{
+			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+30);
+			ctx.fillText( " " + str.charAt(i) + " ", (i+1)*40, yOffset+60);
+		}	
+	}
+</script>
+<body>
+<select name="Visualize" id="Visualize" onchange="selectionChanged(this)">>
+  <option value="none">Select a Visualization</option>
+  <option value="string">String</option>
+  <option value="stringequality">String Equality</option>
+  <option value="stringbuffer">StringBuffer</option>
+  <option value="c++">C++</option>
+  <option value="java">Java</option>
+</select>
+<canvas id="canvas1" width="1000" height="600"></canvas>
+</body>
+</html>
