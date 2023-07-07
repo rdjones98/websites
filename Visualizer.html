@@ -4,59 +4,93 @@
 	{
 
 		if( e.value === "string" )
-			showStringVisualization("This is a String", 20);
+			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input><button onclick='showStringVisualization();'>Go</button>";
 		else if( e.value === "stringequality" )
-		{
-			showStringVisualization("This is a String", 20);
-			showStringVisualization("This is a string", 150);
-		}
+			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input><br>String s2=<input id='s2'></input><button onclick='showStringEqualityVisualization();'>Go</button>";
 		else if( e.value === "stringbuffer" )
 		{
-			showStringBufferVisualization();
+			document.getElementById("inputpanel").innerHTML="StringBuffer s1=<input id='s1'></input><button onclick='showStringBufferVisualization();'>Go</button><br>";
+			document.getElementById("inputpanel").innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+			document.getElementById("inputpanel").innerHTML+="Insert:<input size=7 id='insertVal'></input>at<input size=6 id='insertIdx'></input><button onclick='showStringBufferVisualization();'>Go</button><br>";
+			document.getElementById("inputpanel").innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			document.getElementById("inputpanel").innerHTML+="Delete From<input size=7 id='deleteStartIdx'></input>to<input size=6 id='deleteEndIdx'></input><button onclick='showStringBufferVisualization();'>Go</button>";
 		}
+	}
+	function showStringVisualization()
+	{
+		var val = document.getElementById("s1").value;
+		visualizeString(val, 30);
+	}
+	function showStringEqualityVisualization()
+	{
+		var val = document.getElementById("s1").value;
+		visualizeString(val, 30);
+		var val2 = document.getElementById("s2").value;
+		visualizeString(val2, 130);
 	}
 	function showStringBufferVisualization()
 	{
-		var yOffset = 20;
-		var str = "This is a String";
-		showStringVisualization(str, 20);
-		
-		var c1 = document.getElementById("canvas1");
-		var ctx = c1.getContext("2d");
-		ctx.font = "20px sans serif";
-		ctx.fillText('sb.insert(10,"big ");', 40, yOffset + 130);
-
-		for(var i=0; i<10; i++)
-		{
-			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
-			ctx.fillText( " " + str.charAt(i) + " ", (i+1)*40, yOffset+220);
-		}	
-		
-		ctx.fillStyle="green";
-		for(var i=10; i<14; i++)
-		{
-			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
-			ctx.fillText( " " + "big ".charAt(i-10) + " ", (i+1)*40, yOffset+220);
-		}	
-
-		ctx.fillStyle="black";
-		for(var i=14; i<str.length + 4; i++)
-		{
-			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+160);
-			ctx.fillText( " " + str.charAt(i-4) + " ", (i+1)*40, yOffset+220);
-		}	
+		visualizeStringBuffer();
 	}
-	function showStringVisualization(str, yOffset)
+	function visualizeString(str, yOffset)
 	{
 		var c1 = document.getElementById("canvas1");
 		var ctx = c1.getContext("2d");
-		ctx.font = "20px sans serif";
-		ctx.fillText( str, 40,yOffset);
+		ctx.font = "20px courier";
 		for(var i=0; i<str.length; i++)
 		{
-			ctx.fillText( "[" + i + "]", (i+1)*40, yOffset+30);
-			ctx.fillText( " " + str.charAt(i) + " ", (i+1)*40, yOffset+60);
+			ctx.fillText( "[" + i + "]", 			 20 + (i+1)*45, yOffset);
+			ctx.fillText( " " + str.charAt(i) + " ", 20 + (i+1)*45, yOffset+30);
+			ctx.fillText( str.charCodeAt(i) + " ",   20 + (i+1)*45, yOffset+60);
 		}	
+	}
+	function visualizeStringBuffer()
+	{
+		var yOffset = 20;
+		var val = document.getElementById("s1").value;
+		visualizeString(val, 30);
+
+		var insertVal = document.getElementById("insertVal").value;
+		var insertIdx = document.getElementById("insertIdx").value;
+
+		if(insertVal != "" && insertIdx != "")
+		{
+			var c1 = document.getElementById("canvas1");
+			var ctx = c1.getContext("2d");
+			ctx.font = "20px sans serif";
+
+			for(var i=0; i<insertIdx; i++)
+			{
+				ctx.fillText( "[" + i + "]", 			    20 + (i+1)*45, yOffset+160);
+				ctx.fillText( " " + val.charAt(i) + " ",    20 + (i+1)*45, yOffset+190);
+				ctx.fillText( " " + val.charCodeAt(i) +" ", 20 + (i+1)*45, yOffset+210);
+			}	
+			
+			ctx.fillStyle="green";
+			for(var i=0; i<insertVal.length; i++)
+			{
+				ctx.fillText( "[" + (+insertIdx + i) + "]", 	   20 + (+insertIdx+i+1)*45, yOffset+160);
+				ctx.fillText( " " + insertVal.charAt(i) + " ",     20 + (+insertIdx+i+1)*45, yOffset+190);
+				ctx.fillText( " " + insertVal.charCodeAt(i) + " ", 20 + (+insertIdx+i+1)*45, yOffset+210);
+			}	
+
+			ctx.fillStyle="black";
+			for(var i=+insertIdx; i<val.length; i++)
+			{
+				ctx.fillText( "[" + (i+insertVal.length) + "]", 20 + (i+insertVal.length+1)*45, yOffset+160);
+				ctx.fillText( " " + val.charAt(i) + " ", 		20 + (i+insertVal.length+1)*45, yOffset+190);
+				ctx.fillText( " " + val.charCodeAt(i) + " ", 	20 + (i+insertVal.length+1)*45, yOffset+210);
+			}
+			val = val.substring(0,insertIdx) + insertVal + val.substring(insertIdx);
+		}			
+		var deleteStartIdx = document.getElementById("deleteStartIdx").value;
+		var deleteEndIdx = document.getElementById("deleteEndIdx").value;
+
+		if(deleteStartIdx != "" && deleteEndIdx != "")
+		{
+			var newStr = val.substring(0,+deleteStartIdx) + val.substring(deleteEndIdx);
+			visualizeString(newStr, 330);
+		}
 	}
 </script>
 <body>
@@ -65,9 +99,10 @@
   <option value="string">String</option>
   <option value="stringequality">String Equality</option>
   <option value="stringbuffer">StringBuffer</option>
-  <option value="c++">C++</option>
-  <option value="java">Java</option>
 </select>
+<hr>
+<div id="inputpanel">
+</div>
 <canvas id="canvas1" width="1000" height="600"></canvas>
 </body>
 </html>
