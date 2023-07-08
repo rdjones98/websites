@@ -15,6 +15,28 @@
 			document.getElementById("inputpanel").innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			document.getElementById("inputpanel").innerHTML+="Delete From<input size=7 id='deleteStartIdx'></input>to<input size=6 id='deleteEndIdx'></input><button onclick='showStringBufferVisualization();'>Go</button>";
 		}
+		else if( e.value === "arraylist" )
+		{
+			document.getElementById("inputpanel").innerHTML="ArrayList<> al=<input size=80 id='al'></input><button onclick='showArrayListVisualization();'>Go</button><br>";
+		}
+	}
+	function showArrayListVisualization()
+	{
+		var val = document.getElementById("al").value;
+		var array = val.split(",");
+
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.font = "20px courier";
+		ctx.clearRect(0, 0, c1.width, c1.height);
+		
+		var yOffset=30;
+		for(var i=0; i<array.length; i++)
+		{
+			ctx.fillText( "[" + i + "]",  65, yOffset);
+			ctx.fillText( array[i]      , 100, yOffset);
+			yOffset +=30;
+		}
 	}
 	function showStringVisualization()
 	{
@@ -23,10 +45,25 @@
 	}
 	function showStringEqualityVisualization()
 	{
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.font = "20px courier";
+		ctx.clearRect(0, 0, c1.width, c1.height);
+		
 		var val = document.getElementById("s1").value;
-		visualizeString(val, 30);
 		var val2 = document.getElementById("s2").value;
-		visualizeString(val2, 130);
+		var equal = (val == val2);
+		if( ! equal )
+		{
+			if ( val.length != val2.length ) 
+				ctx.fillText( "s1.equals(s2) == " + equal + " because they are different lengths", 70, 30);
+			else
+				ctx.fillText( "s1.equals(s2) == " + equal + " because ...", 70, 30);
+		}
+		else
+				ctx.fillText( "s1.equals(s2) == " + equal , 70, 30);
+		visualizeString(val, 60);
+		visualizeString(val2, 160);
 	}
 	function showStringBufferVisualization()
 	{
@@ -46,6 +83,11 @@
 	}
 	function visualizeStringBuffer()
 	{
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.font = "20px sans serif";
+		ctx.clearRect(0, 0, c1.width, c1.height);
+
 		var yOffset = 20;
 		var val = document.getElementById("s1").value;
 		visualizeString(val, 30);
@@ -55,10 +97,6 @@
 
 		if(insertVal != "" && insertIdx != "")
 		{
-			var c1 = document.getElementById("canvas1");
-			var ctx = c1.getContext("2d");
-			ctx.font = "20px sans serif";
-
 			for(var i=0; i<insertIdx; i++)
 			{
 				ctx.fillText( "[" + i + "]", 			    20 + (i+1)*45, yOffset+160);
@@ -99,6 +137,7 @@
   <option value="string">String</option>
   <option value="stringequality">String Equality</option>
   <option value="stringbuffer">StringBuffer</option>
+  <option value="arraylist">ArrayList</option>
 </select>
 <hr>
 <div id="inputpanel">
