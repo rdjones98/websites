@@ -2,6 +2,9 @@
 <script>
 	function selectionChanged(e)
 	{
+		var c1 = document.getElementById("canvas1");
+		var ctx = c1.getContext("2d");
+		ctx.clearRect(0, 0, c1.width, c1.height);
 
 		if( e.value === "string" )
 			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input><button onclick='showStringVisualization();'>Go</button>";
