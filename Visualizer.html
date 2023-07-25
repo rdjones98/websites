@@ -9,7 +9,7 @@
 		if( e.value === "string" )
 			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input><button onclick='showStringVisualization();'>Go</button>";
 		else if( e.value === "stringequality" )
-			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input><br>String s2=<input id='s2'></input><button onclick='showStringEqualityVisualization();'>Go</button>";
+			document.getElementById("inputpanel").innerHTML="String s1=<input id='s1'></input>@f0f2775<br>String s2=<input id='s2'>@bac3251</input><button onclick='showStringEqualityVisualization();'>Go</button>";
 		else if( e.value === "stringbuffer" )
 		{
 			document.getElementById("inputpanel").innerHTML="StringBuffer s1=<input id='s1'></input><button onclick='showStringBufferVisualization();'>Go</button><br>";
@@ -52,6 +52,8 @@
 		var ctx = c1.getContext("2d");
 		ctx.font = "20px courier";
 		ctx.clearRect(0, 0, c1.width, c1.height);
+
+		ctx.fillText( "s1 == s2 is false because hashcodes are different" , 70, 30);
 		
 		var val = document.getElementById("s1").value;
 		var val2 = document.getElementById("s2").value;
@@ -59,14 +61,14 @@
 		if( ! equal )
 		{
 			if ( val.length != val2.length ) 
-				ctx.fillText( "s1.equals(s2) == " + equal + " because they are different lengths", 70, 30);
+				ctx.fillText( "s1.equals(s2) is " + equal + " because they are different lengths", 70, 60);
 			else
-				ctx.fillText( "s1.equals(s2) == " + equal + " because ...", 70, 30);
+				ctx.fillText( "s1.equals(s2) is " + equal + " because ...", 70, 60);
 		}
 		else
-				ctx.fillText( "s1.equals(s2) == " + equal , 70, 30);
-		visualizeString(val, 60);
-		visualizeString(val2, 160);
+				ctx.fillText( "s1.equals(s2) is " + equal , 70, 60);
+		visualizeString(val, 90);
+		visualizeString(val2, 190);
 	}
 	function showStringBufferVisualization()
 	{
