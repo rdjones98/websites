@@ -53,22 +53,41 @@
 		ctx.font = "20px courier";
 		ctx.clearRect(0, 0, c1.width, c1.height);
 
-		ctx.fillText( "s1 == s2 is false because hashcodes are different" , 70, 30);
+		var y=30;
+		ctx.fillText( "s1 == s2 is false because hashcodes are different" , 70, y+=30);
 		
+		var compareTo = "-3";
+	
 		var val = document.getElementById("s1").value;
 		var val2 = document.getElementById("s2").value;
 		var equal = (val == val2);
 		if( ! equal )
 		{
-			if ( val.length != val2.length ) 
-				ctx.fillText( "s1.equals(s2) is " + equal + " because they are different lengths", 70, 60);
-			else
-				ctx.fillText( "s1.equals(s2) is " + equal + " because ...", 70, 60);
+			var done=false;
+			var smallerLen = val.length<val2.length?val.length:val2.length;
+			for( var i=0; i<smallerLen; i++)
+			{
+				if( val.charAt(i) != val2.charAt(i) )
+				{
+					ctx.fillText( "s1.compareTo(s2) == " + (val.charCodeAt(i) - val2.charCodeAt(i)), 70, y+=30);
+					ctx.fillText( "s1.equals(s2) == false because they differ at char " + i, 70, y+=30);
+					done=true;
+					break;
+				}
+			}
+			if(!done)
+			{
+				ctx.fillText( "s1.compareTo(s2) == " + (val.length<val2.length?"-1 because s1 is shorter":"1 because s1 is longer"), 70, y+=30);
+				ctx.fillText( "s1.equals(s2) is " + equal + " because they are different lengths", 70, y+=30);
+			}
 		}
 		else
-				ctx.fillText( "s1.equals(s2) is " + equal , 70, 60);
-		visualizeString(val, 90);
-		visualizeString(val2, 190);
+		{
+			ctx.fillText( "s1.compareTo(s2) == 0", 70, y+=30);
+			ctx.fillText( "s1.equals(s2) is " + equal , 70, y+=30);
+		}
+		visualizeString(val, y+=30);
+		visualizeString(val2, y+=100);
 	}
 	function showStringBufferVisualization()
 	{
